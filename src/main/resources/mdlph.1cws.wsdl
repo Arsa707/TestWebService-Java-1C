@@ -1,0 +1,416 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://schemas.xmlsoap.org/wsdl/"
+		xmlns:soap12bind="http://schemas.xmlsoap.org/wsdl/soap12/"
+		xmlns:soapbind="http://schemas.xmlsoap.org/wsdl/soap/"
+		xmlns:tns="http://server04/mdlph"
+		xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy"
+		xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd"
+		xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+		xmlns:xsd1="http://server04/mdlph"
+		name="MDLPH"
+		targetNamespace="http://server04/mdlph">
+	<types>
+		<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+				xmlns:xs1="http://server04/mdlph"
+				targetNamespace="http://server04/mdlph"
+				attributeFormDefault="unqualified"
+				elementFormDefault="qualified">
+			<xs:complexType name="ПроцессСканирования">
+				<xs:sequence>
+					<xs:element name="НомерПроцесса"
+							type="xs:string"/>
+					<xs:element name="ДатаПроцесса"
+							type="xs:dateTime"/>
+					<xs:element name="processId"
+							type="xs:string"/>
+					<xs:element name="Заблокирован"
+							type="xs:boolean"
+							nillable="true"/>
+					<xs:element name="ИдентификаторЗаблокировавшегоТерминала"
+							type="xs:string"
+							nillable="true"/>
+					<xs:element name="Организация"
+							type="xs:string"
+							nillable="true"/>
+					<xs:element name="Контрагент"
+							type="xs:string"
+							nillable="true"/>
+					<xs:element name="ВхНомер"
+							type="xs:string"
+							nillable="true"/>
+					<xs:element name="ВхДата"
+							type="xs:dateTime"
+							nillable="true"/>
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="ПроцессыСканирования">
+				<xs:sequence>
+					<xs:element name="Процесс"
+							type="tns:ПроцессСканирования"
+							minOccurs="0"
+							maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="РезультатСканирования">
+				<xs:sequence>
+					<xs:element name="processId"
+							type="xs:string"/>
+					<xs:element name="ДатаСканирования"
+							type="xs:dateTime"/>
+					<xs:element name="ТретичнаяУпаковка"
+							type="xs:boolean"/>
+					<xs:element name="КодУпаковки"
+							type="xs:string"/>
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="РезультатыСканирования">
+				<xs:sequence>
+					<xs:element name="РезультатСканирования"
+							type="tns:РезультатСканирования"
+							maxOccurs="unbounded"/>
+					<xs:element name="ИдентификаторТерминала"
+							type="xs:string"/>
+					<xs:element name="ОчищатьПредыдущиеЗаписи"
+							type="xs:boolean"/>
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="ЭлементПроцессаСканирования">
+				<xs:sequence>
+					<xs:element name="НомерСтроки"
+							type="xs:string"/>
+					<xs:element name="Номенклатура"
+							type="xs:string"/>
+					<xs:element name="Количество"
+							type="xs:string"/>
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="ЭлементыПроцессаСканирования">
+				<xs:sequence>
+					<xs:element name="ЭлементПроцессаСканирования"
+							type="tns:ЭлементПроцессаСканирования"
+							maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:complexType>
+			<xs:element name="ЗапросПулаНеотсканированных">
+				<xs:complexType>
+					<xs:sequence/>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="ЗапросПулаНеотсканированныхResponse">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="return"
+								type="tns:ПроцессыСканирования"
+								nillable="true"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="ЗапросПулаНеотсканированныхПоТерминалу">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="ИдентификаторТерминала"
+								type="xs:string"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="ЗапросПулаНеотсканированныхПоТерминалуResponse">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="return"
+								type="tns:ПроцессыСканирования"
+								nillable="true"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="ПередатьРезультатыСканирования">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="РезультатыСканирования"
+								type="tns:РезультатыСканирования"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="ПередатьРезультатыСканированияResponse">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="return"
+								type="xs:boolean"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="ЗаблокироватьПроцессДляСканирования">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="processId"
+								type="xs:string"/>
+						<xs:element name="ИдентификаторТерминала"
+								type="xs:string"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="ЗаблокироватьПроцессДляСканированияResponse">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="return"
+								type="xs:boolean"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="РазблокироватьПроцесс">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="processId"
+								type="xs:string"/>
+						<xs:element name="ИдентификаторТерминала"
+								type="xs:string"/>
+						<xs:element name="СканированиеЗавершено"
+								type="xs:boolean"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="РазблокироватьПроцессResponse">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="return"
+								type="xs:boolean"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="ПолучитьДанныеПоПроцессу">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="processId"
+								type="xs:string"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="ПолучитьДанныеПоПроцессуResponse">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="return"
+								type="tns:ЭлементыПроцессаСканирования"
+								nillable="true"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:schema>
+	</types>
+	<message name="ЗапросПулаНеотсканированныхRequestMessage">
+		<part name="parameters"
+				element="tns:ЗапросПулаНеотсканированных"/>
+	</message>
+	<message name="ЗапросПулаНеотсканированныхResponseMessage">
+		<part name="parameters"
+				element="tns:ЗапросПулаНеотсканированныхResponse"/>
+	</message>
+	<message name="ЗапросПулаНеотсканированныхПоТерминалуRequestMessage">
+		<part name="parameters"
+				element="tns:ЗапросПулаНеотсканированныхПоТерминалу"/>
+	</message>
+	<message name="ЗапросПулаНеотсканированныхПоТерминалуResponseMessage">
+		<part name="parameters"
+				element="tns:ЗапросПулаНеотсканированныхПоТерминалуResponse"/>
+	</message>
+	<message name="ПередатьРезультатыСканированияRequestMessage">
+		<part name="parameters"
+				element="tns:ПередатьРезультатыСканирования"/>
+	</message>
+	<message name="ПередатьРезультатыСканированияResponseMessage">
+		<part name="parameters"
+				element="tns:ПередатьРезультатыСканированияResponse"/>
+	</message>
+	<message name="ЗаблокироватьПроцессДляСканированияRequestMessage">
+		<part name="parameters"
+				element="tns:ЗаблокироватьПроцессДляСканирования"/>
+	</message>
+	<message name="ЗаблокироватьПроцессДляСканированияResponseMessage">
+		<part name="parameters"
+				element="tns:ЗаблокироватьПроцессДляСканированияResponse"/>
+	</message>
+	<message name="РазблокироватьПроцессRequestMessage">
+		<part name="parameters"
+				element="tns:РазблокироватьПроцесс"/>
+	</message>
+	<message name="РазблокироватьПроцессResponseMessage">
+		<part name="parameters"
+				element="tns:РазблокироватьПроцессResponse"/>
+	</message>
+	<message name="ПолучитьДанныеПоПроцессуRequestMessage">
+		<part name="parameters"
+				element="tns:ПолучитьДанныеПоПроцессу"/>
+	</message>
+	<message name="ПолучитьДанныеПоПроцессуResponseMessage">
+		<part name="parameters"
+				element="tns:ПолучитьДанныеПоПроцессуResponse"/>
+	</message>
+	<portType name="MDLPHPortType">
+		<operation name="ЗапросПулаНеотсканированных">
+			<input message="tns:ЗапросПулаНеотсканированныхRequestMessage"/>
+			<output message="tns:ЗапросПулаНеотсканированныхResponseMessage"/>
+		</operation>
+		<operation name="ЗапросПулаНеотсканированныхПоТерминалу">
+			<input message="tns:ЗапросПулаНеотсканированныхПоТерминалуRequestMessage"/>
+			<output message="tns:ЗапросПулаНеотсканированныхПоТерминалуResponseMessage"/>
+		</operation>
+		<operation name="ПередатьРезультатыСканирования">
+			<input message="tns:ПередатьРезультатыСканированияRequestMessage"/>
+			<output message="tns:ПередатьРезультатыСканированияResponseMessage"/>
+		</operation>
+		<operation name="ЗаблокироватьПроцессДляСканирования">
+			<input message="tns:ЗаблокироватьПроцессДляСканированияRequestMessage"/>
+			<output message="tns:ЗаблокироватьПроцессДляСканированияResponseMessage"/>
+		</operation>
+		<operation name="РазблокироватьПроцесс">
+			<input message="tns:РазблокироватьПроцессRequestMessage"/>
+			<output message="tns:РазблокироватьПроцессResponseMessage"/>
+		</operation>
+		<operation name="ПолучитьДанныеПоПроцессу">
+			<input message="tns:ПолучитьДанныеПоПроцессуRequestMessage"/>
+			<output message="tns:ПолучитьДанныеПоПроцессуResponseMessage"/>
+		</operation>
+	</portType>
+	<binding name="MDLPHSoapBinding"
+			type="tns:MDLPHPortType">
+		<soapbind:binding style="document"
+				transport="http://schemas.xmlsoap.org/soap/http"/>
+		<operation name="ЗапросПулаНеотсканированных">
+			<soapbind:operation style="document"
+					soapAction="http://server04/mdlph#MDLPH:ЗапросПулаНеотсканированных"/>
+			<input>
+				<soapbind:body use="literal"/>
+			</input>
+			<output>
+				<soapbind:body use="literal"/>
+			</output>
+		</operation>
+		<operation name="ЗапросПулаНеотсканированныхПоТерминалу">
+			<soapbind:operation style="document"
+					soapAction="http://server04/mdlph#MDLPH:ЗапросПулаНеотсканированныхПоТерминалу"/>
+			<input>
+				<soapbind:body use="literal"/>
+			</input>
+			<output>
+				<soapbind:body use="literal"/>
+			</output>
+		</operation>
+		<operation name="ПередатьРезультатыСканирования">
+			<soapbind:operation style="document"
+					soapAction="http://server04/mdlph#MDLPH:ПередатьРезультатыСканирования"/>
+			<input>
+				<soapbind:body use="literal"/>
+			</input>
+			<output>
+				<soapbind:body use="literal"/>
+			</output>
+		</operation>
+		<operation name="ЗаблокироватьПроцессДляСканирования">
+			<soapbind:operation style="document"
+					soapAction="http://server04/mdlph#MDLPH:ЗаблокироватьПроцессДляСканирования"/>
+			<input>
+				<soapbind:body use="literal"/>
+			</input>
+			<output>
+				<soapbind:body use="literal"/>
+			</output>
+		</operation>
+		<operation name="РазблокироватьПроцесс">
+			<soapbind:operation style="document"
+					soapAction="http://server04/mdlph#MDLPH:РазблокироватьПроцесс"/>
+			<input>
+				<soapbind:body use="literal"/>
+			</input>
+			<output>
+				<soapbind:body use="literal"/>
+			</output>
+		</operation>
+		<operation name="ПолучитьДанныеПоПроцессу">
+			<soapbind:operation style="document"
+					soapAction="http://server04/mdlph#MDLPH:ПолучитьДанныеПоПроцессу"/>
+			<input>
+				<soapbind:body use="literal"/>
+			</input>
+			<output>
+				<soapbind:body use="literal"/>
+			</output>
+		</operation>
+	</binding>
+	<binding name="MDLPHSoap12Binding"
+			type="tns:MDLPHPortType">
+		<soap12bind:binding style="document"
+				transport="http://schemas.xmlsoap.org/soap/http"/>
+		<operation name="ЗапросПулаНеотсканированных">
+			<soap12bind:operation style="document"
+					soapAction="http://server04/mdlph#MDLPH:ЗапросПулаНеотсканированных"/>
+			<input>
+				<soap12bind:body use="literal"/>
+			</input>
+			<output>
+				<soap12bind:body use="literal"/>
+			</output>
+		</operation>
+		<operation name="ЗапросПулаНеотсканированныхПоТерминалу">
+			<soap12bind:operation style="document"
+					soapAction="http://server04/mdlph#MDLPH:ЗапросПулаНеотсканированныхПоТерминалу"/>
+			<input>
+				<soap12bind:body use="literal"/>
+			</input>
+			<output>
+				<soap12bind:body use="literal"/>
+			</output>
+		</operation>
+		<operation name="ПередатьРезультатыСканирования">
+			<soap12bind:operation style="document"
+					soapAction="http://server04/mdlph#MDLPH:ПередатьРезультатыСканирования"/>
+			<input>
+				<soap12bind:body use="literal"/>
+			</input>
+			<output>
+				<soap12bind:body use="literal"/>
+			</output>
+		</operation>
+		<operation name="ЗаблокироватьПроцессДляСканирования">
+			<soap12bind:operation style="document"
+					soapAction="http://server04/mdlph#MDLPH:ЗаблокироватьПроцессДляСканирования"/>
+			<input>
+				<soap12bind:body use="literal"/>
+			</input>
+			<output>
+				<soap12bind:body use="literal"/>
+			</output>
+		</operation>
+		<operation name="РазблокироватьПроцесс">
+			<soap12bind:operation style="document"
+					soapAction="http://server04/mdlph#MDLPH:РазблокироватьПроцесс"/>
+			<input>
+				<soap12bind:body use="literal"/>
+			</input>
+			<output>
+				<soap12bind:body use="literal"/>
+			</output>
+		</operation>
+		<operation name="ПолучитьДанныеПоПроцессу">
+			<soap12bind:operation style="document"
+					soapAction="http://server04/mdlph#MDLPH:ПолучитьДанныеПоПроцессу"/>
+			<input>
+				<soap12bind:body use="literal"/>
+			</input>
+			<output>
+				<soap12bind:body use="literal"/>
+			</output>
+		</operation>
+	</binding>
+	<service name="MDLPH">
+		<port name="MDLPHSoap"
+				binding="tns:MDLPHSoapBinding">
+			<documentation> 
+				<wsi:Claim xmlns:wsi="http://ws-i.org/schemas/conformanceClaim/"
+						conformsTo="http://ws-i.org/profiles/basic/1.1"/>
+			</documentation>
+			<soapbind:address location="http://server04/holding/ws/mdlph.1cws"/>
+		</port>
+		<port name="MDLPHSoap12"
+				binding="tns:MDLPHSoap12Binding">
+			<soap12bind:address location="http://server04/holding/ws/mdlph.1cws"/>
+		</port>
+	</service>
+</definitions>
